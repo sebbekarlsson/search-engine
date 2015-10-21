@@ -48,7 +48,7 @@ class SpiderHelper(object):
         session = new_session()
 
         try:
-            post = session.query(Post).filter(Post.type=='url').limit(1).first()
+            post = session.query(Post).filter(Post.type=='url').first()
         except:
             return fallback_url
 

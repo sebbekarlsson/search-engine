@@ -50,16 +50,17 @@ class Spider(threading.Thread):
             if old is None:
                 print(self.url)
 
+                spider = Spider(name='Spiderman', url=href, dumpster=self.dumpster)
+                spider.start()
+
                 post = Post()
                 post.title = href
                 post.content = post.title
                 post.type = 'url'
 
-                spider = Spider(name='Spiderman', url=href, dumpster=self.dumpster)
-                spider.start()
-
                 self.dumpster.add(post)
-                
+
+
         self.session.close()
 
         return True
