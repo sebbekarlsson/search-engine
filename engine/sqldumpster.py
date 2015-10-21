@@ -14,10 +14,11 @@ class SQLDumpster(threading.Thread):
 
     def run(self):
         while True:
-            for q in self.queries:
+            for i, q in enumerate(self.queries):
                 with self.session.no_autoflush:
-                    try:
-                        self.session.add(q)
-                        self.session.commit()
-                    except AssertionError:
-                        pass
+                    self.session.add(q)
+                    self.queries.remove(q)
+            try:
+                self.session.commit()
+            except:
+                pass

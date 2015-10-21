@@ -3,8 +3,8 @@ from urllib.request import urlopen
 from urllib.parse import urljoin
 from lxml import etree
 from .utils import get_filename, get_dir
-from .config import get_config
-from .models import Post
+from .models import Post, new_session
+from .config import config
 
 
 class Spider(threading.Thread):
@@ -13,21 +13,18 @@ class Spider(threading.Thread):
         threading.Thread.__init__(self)
         self.name = name
         self.url = url
-        self.config = get_config()
+        self.config = config
         self.dumpster = dumpster
+        self.session = new_session()
 
     def run(self):
-        print(self.url)
-        
-        
         try:
             response = urlopen(self.url)
+            html = response.read()
+            tree = etree.HTML(html)
         except:
             return False
 
-
-        html = response.read()
-        tree = etree.HTML(html)
         links = tree.xpath('//a')
 
         for link in links:
@@ -43,13 +40,27 @@ class Spider(threading.Thread):
                 else:
                     href = new_href
 
-            post = Post()
-            post.title = href
-            post.content = post.title
-            post.type = 'url'
+            old = None
+            try:
+                old = self.session.query(Post).filter(Post.title==href).first()
+            except:
+                self.session.close()
+                return False
 
-            self.dumpster.add(post)
+            if old is None:
+                print(self.url)
 
+                post = Post()
+                post.title = href
+                post.content = post.title
+                post.type = 'url'
+
+                spider = Spider(name='Spiderman', url=href, dumpster=self.dumpster)
+                spider.start()
+
+                self.dumpster.add(post)
+                
+        self.session.close()
 
         return True
 
