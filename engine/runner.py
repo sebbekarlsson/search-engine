@@ -2,8 +2,10 @@ from engine.spider import Spider
 from engine.spiderhelper import SpiderHelper
 from .sqldumpster import SQLDumpster
 from .models import sess
+from .config import get_config
 
-spider_size = 32
+
+spider_size = int(get_config()['spider']['size'])
 
 helper = SpiderHelper()
 dumpster = SQLDumpster()

@@ -25,7 +25,7 @@ class SpiderHelper(object):
         urls = []
         for i, post in enumerate(posts):
 
-            #Printing a nice little percentage view to the console
+            # Printing a nice little percentage view to the console
             percentage = (i/count) * 100
             print('Fetching URLs: {p}%'.format(p=percentage), end="\r")
 

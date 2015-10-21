@@ -1,2 +1,3 @@
 spider:
     fallback_url: 'http://www.asp.net/'
+    size: 128
