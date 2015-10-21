@@ -18,37 +18,39 @@ class Spider(threading.Thread):
 
     def run(self):
         print(self.url)
-
+        
+        
         try:
             response = urlopen(self.url)
         except:
             return False
 
-            html = response.read()
-            tree = etree.HTML(html)
-            links = tree.xpath('//a')
-            
-            for link in links:
-                try:
-                    href = link.attrib['href']
-                except KeyError:
+
+        html = response.read()
+        tree = etree.HTML(html)
+        links = tree.xpath('//a')
+
+        for link in links:
+            try:
+                href = link.attrib['href']
+            except KeyError:
+                href = self.config['spider']['fallback_url']
+
+            if not href.startswith('http') and not href.startswith('https'):
+                new_href = urljoin(self.url, href)
+                if not new_href.startswith('http') and not new_href.startswith('https'):
                     href = self.config['spider']['fallback_url']
+                else:
+                    href = new_href
 
-                if not href.startswith('http') and not href.startswith('https'):
-                    new_href = urljoin(self.url, href)
-                    if not new_href.startswith('http') and not new_href.startswith('https'):
-                        href = self.config['spider']['fallback_url']
-                    else:
-                        href = new_href
+            post = Post()
+            post.title = href
+            post.content = post.title
+            post.type = 'url'
 
-                post = Post()
-                post.title = href
-                post.content = post.title
-                post.type = 'url'
-
-                self.dumpster.add(post)
+            self.dumpster.add(post)
 
 
-            return True
+        return True
 
                 
