@@ -1,5 +1,6 @@
 from .models import new_session, Post
 from .config import config
+from  sqlalchemy.sql.expression import func
 
 
 class SpiderHelper(object):
@@ -48,7 +49,7 @@ class SpiderHelper(object):
         session = new_session()
 
         try:
-            post = session.query(Post).filter(Post.type=='url').first()
+            post = session.query(Post).filter(Post.type=='url').order_by(func.random()).first()
         except:
             return fallback_url
 

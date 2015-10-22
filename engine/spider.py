@@ -5,6 +5,7 @@ from lxml import etree
 from .utils import get_filename, get_dir
 from .models import Post, new_session
 from .config import config
+from .spiderhelper import SpiderHelper
 
 
 class Spider(threading.Thread):
@@ -16,6 +17,7 @@ class Spider(threading.Thread):
         self.config = config
         self.dumpster = dumpster
         self.session = new_session()
+        self.helper = SpiderHelper()
 
     def run(self):
         try:
@@ -50,15 +52,18 @@ class Spider(threading.Thread):
             if old is None:
                 print(self.url)
 
-                spider = Spider(name='Spiderman', url=href, dumpster=self.dumpster)
-                spider.start()
-
                 post = Post()
                 post.title = href
                 post.content = post.title
                 post.type = 'url'
 
                 self.dumpster.add(post)
+            else:
+                try:
+                    spider = Spider(name='Vincit Hacker', url=self.helper.get_url(), dumpster=self.dumpster)
+                    spider.start()
+                except RuntimeError:
+                    pass
 
 
         self.session.close()
