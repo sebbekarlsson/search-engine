@@ -1,3 +1,3 @@
 spider:
-    fallback_url: 'http://www.vincit.se/'
+    fallback_url: 'https://www.asp.net/'
     size: 32
