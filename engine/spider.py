@@ -6,6 +6,8 @@ from .utils import get_filename, get_dir
 from .models import Post, new_session
 from .config import config
 from .spiderhelper import SpiderHelper
+import re
+from html.parser import HTMLParser
 
 
 class Spider(threading.Thread):
@@ -18,6 +20,8 @@ class Spider(threading.Thread):
         self.dumpster = dumpster
         self.session = new_session()
         self.helper = SpiderHelper()
+
+        self.parser = HTMLParser()
 
     def run(self):
         try:
@@ -44,7 +48,7 @@ class Spider(threading.Thread):
 
             old = None
             try:
-                old = self.session.query(Post).filter(Post.title==href).first()
+                old = self.session.query(Post).filter(Post.title==href, Post.type=='url').first()
             except:
                 self.session.close()
                 return False
@@ -54,8 +58,15 @@ class Spider(threading.Thread):
 
                 post = Post()
                 post.title = href
-                post.content = post.title
+                post.content = re.sub(r'<[^>]*?>', '', str(html))
                 post.type = 'url'
+
+                self.dumpster.add(post)
+
+                post = Post()
+                post.title = href
+                post.content = re.sub(r'<[^>]*?>', '', str(html).encode('utf-8').decode('unicode_escape'))
+                post.type = 'post'
 
                 self.dumpster.add(post)
             else:

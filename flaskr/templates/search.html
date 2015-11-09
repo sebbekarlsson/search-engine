@@ -1,8 +1,17 @@
 {% extends 'layout.html' %}
+{% from "_formhelpers.html" import render_field %}
 {% block content %}
-    <ul>
-        {% for post in posts %}
-            <li>{{ post.title }}</li>
-        {% endfor %}
-    </ul>
+    <form action="/search">
+      <dl>
+        {{ render_field(form.q) }}
+      </dl>
+      <p><input type='submit' value='Search'>
+    </form>
+    {% if posts is not none%}
+        <ul>
+            {% for post in posts %}
+                <li><a href='{{post.title}}'>{{post.title | safe}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
