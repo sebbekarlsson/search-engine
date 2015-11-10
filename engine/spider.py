@@ -73,8 +73,6 @@ class Spider(threading.Thread):
                 return False
 
             if old is None:
-                print(self.url)
-
                 post = Post()
                 post.title = href
                 post.content = re.sub(r'<[^>]*?>', '', str(html))
@@ -88,12 +86,6 @@ class Spider(threading.Thread):
                 post.type = 'post'
 
                 self.dumpster.add(post)
-            else:
-                try:
-                    spider = Spider(name='Vincit Hacker', url=self.helper.get_url(), dumpster=self.dumpster)
-                    spider.start()
-                except RuntimeError:
-                    pass
 
 
         self.session.close()

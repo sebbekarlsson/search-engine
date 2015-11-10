@@ -3,6 +3,8 @@ from engine.spiderhelper import SpiderHelper
 from .sqldumpster import SQLDumpster
 from .models import sess
 from .config import config
+import time
+
 
 config = config
 
@@ -13,9 +15,16 @@ threads = []
 
 
 def run():
-    thread = Spider(name='Spiderman', url=helper.get_url(), dumpster=dumpster)
-    thread.start()
+    while True:
+        urls = helper.get_urls(config['spider']['size'])
 
+        for url in urls:
+            if len(threads) < int(config['spider']['size']):
+                thread = Spider(name='Spiderman', url=url, dumpster=dumpster)
+                thread.start()
+                threads.append(thread)
+            
+            print(url)
 
 def start():
     del threads[:]

@@ -1,3 +1,4 @@
 # RENAME THIS FILE TO 'config.yml'
 spider:
     fallback_url: 'http://www.example.org/'
+    size: 10
