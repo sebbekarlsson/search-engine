@@ -35,7 +35,7 @@ class SpiderHelper(object):
             print('Fetching URLs: {p}%'.format(p=percentage), end="\r")
 
             urls.append(post.title)
-            session.query(Post).filter(Post.title==post.title, post.type=='url').delete()
+            #session.query(Post).filter(Post.title==post.title, post.type=='url').delete()
             
 
         session.commit()
