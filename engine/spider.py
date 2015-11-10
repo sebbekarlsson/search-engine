@@ -75,17 +75,18 @@ class Spider(threading.Thread):
             if old is None:
                 post = Post()
                 post.title = href
-                post.content = re.sub(r'<[^>]*?>', '', str(html))
+                post.content = post.title
                 post.type = 'url'
 
                 self.dumpster.add(post)
 
-                post = Post()
-                post.title = href
-                post.content = mock_content
-                post.type = 'post'
 
-                self.dumpster.add(post)
+            post = Post()
+            post.title = self.url
+            post.content = mock_content
+            post.type = 'post'
+
+            self.dumpster.add(post)
 
         self.session.commit()
         self.session.close()

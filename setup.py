@@ -12,6 +12,7 @@ setup(
     install_requires=[
         'flask',
         'flask-wtf',
-        'lxml'
+        'lxml',
+        'PyMySQL'
     ]
 )

@@ -12,19 +12,24 @@ class SpiderHelper(object):
         fallback_url = self.config['spider']['fallback_url']
 
         session = new_session()
+        session.flush()
 
-        try:
-            posts = session.query(Post).filter(Post.type=='url').limit(limit)
-        except:
-            return [fallback_url]
+        posts = session.query(Post).filter(Post.type=='url').limit(limit)
 
         if posts is None:
-            return [fallback_url]
+            posts = session.query(Post).filter(Post.type=='post').limit(limit)
+
+            if posts is None:
+                return [fallback_url]
 
         count = posts.count()
 
         if count == 0:
-            return [fallback_url]
+            posts = session.query(Post).filter(Post.type=='post').limit(limit)
+            count = posts.count()
+
+            if count == 0:
+                return [fallback_url]
     
 
         urls = []
@@ -35,7 +40,7 @@ class SpiderHelper(object):
             print('Fetching URLs: {p}%'.format(p=percentage), end="\r")
 
             urls.append(post.title)
-            session.query(Post).filter(Post.title==post.title, post.type=='url').delete()
+            session.query(Post).filter(Post.title==post.title, Post.type=='url').delete()
             
 
         session.commit()

@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
-engine = create_engine('sqlite:///database.sqlite', connect_args={'check_same_thread':False})
+engine = create_engine("mysql+pymysql://root:cdn@localhost/search")
 
 def new_session():
     Session = sessionmaker()
@@ -18,14 +18,14 @@ sess = new_session()
 
 class Data():
     created = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp())
-    token = Column(String)
+    token = Column(String(160))
 
 class Post(Base, Data):
     __tablename__ = 'Posts'
     id = Column(Integer, primary_key=True)
-    title = Column(String)
-    content = Column(String)
-    type = Column(String)
+    title = Column(String(160))
+    content = Column(String(1024))
+    type = Column(String(160))
 
 def save_url(url):
     old_post = sess.query(Post).filter(Post.title==url).first()
