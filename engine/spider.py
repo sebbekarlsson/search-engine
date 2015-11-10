@@ -87,7 +87,7 @@ class Spider(threading.Thread):
 
                 self.dumpster.add(post)
 
-
+        self.session.commit()
         self.session.close()
 
         return True
