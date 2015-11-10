@@ -1,3 +1,2 @@
 spider:
     fallback_url: 'http://www.gotene.se/index.html'
-    size: 32

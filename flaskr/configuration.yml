@@ -1,0 +1,4 @@
+# RENAME THIS FILE TO 'config.yml'
+app:
+    host: '127.0.0.1'
+    debug: True

@@ -1,3 +1,4 @@
 engine/*.pyc
 *.pyc
 *.sqlite
+config.yml

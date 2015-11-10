@@ -9,7 +9,6 @@ config = config
 dumpster = SQLDumpster()
 dumpster.start()
 helper = SpiderHelper()
-spider_size = int(config['spider']['size'])
 threads = []
 
 
