@@ -17,11 +17,21 @@ def _search():
     form = SearchForm(request.form, csrf_enabled=False)
 
     posts = None
+    new_posts = []
 
     term = request.args.get('q')
     if term is not None and term is not '':
         posts = sess.query(Post).filter(Post.content.like('%' + term + '%'), Post.type=='post')
-        print(term)
+
+
+        for post in posts:
+            post.custom_content = post.content
+
+            if len(post.custom_content) >= 128:
+                post.custom_content = post.custom_content.split(term)[0][-128:] + term + post.custom_content.split(term)[0][-128:]
+            
+            post.custom_content = post.custom_content.replace(term, '<font color="blue">{term}</font>'.format(term=term))
+            new_posts.append(post)
 
     
-    return render_template('search.html', form=form, posts=posts)
+    return render_template('search.html', form=form, posts=new_posts)

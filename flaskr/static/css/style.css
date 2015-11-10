@@ -2,4 +2,13 @@
   margin: 0;
   padding: 0; }
 
+.results {
+  width: 100%; }
+  .results .result {
+    width: 80%;
+    margin: auto;
+    padding: 12px; }
+    .results .result p {
+      padding: 12px; }
+
 /*# sourceMappingURL=style.css.map */

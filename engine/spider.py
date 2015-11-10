@@ -28,6 +28,10 @@ class Spider(threading.Thread):
             response = urlopen(self.url)
             html = response.read()
             tree = etree.HTML(html)
+
+            codec = response.info().get_param('charset', 'utf8')
+            html = html.decode(codec)
+
         except:
             return False
 
@@ -65,7 +69,7 @@ class Spider(threading.Thread):
 
                 post = Post()
                 post.title = href
-                post.content = re.sub(r'<[^>]*?>', '', str(html).encode('utf-8').decode('unicode_escape'))
+                post.content = re.sub(r'<[^>]*?>', '', html).encode('utf-8').decode('unicode_escape')
                 post.type = 'post'
 
                 self.dumpster.add(post)

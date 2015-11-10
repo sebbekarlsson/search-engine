@@ -8,9 +8,14 @@
       <p><input type='submit' value='Search'>
     </form>
     {% if posts is not none%}
-        <ul>
+        <ul class='results'>
             {% for post in posts %}
-                <li><a href='{{post.title}}'>{{post.title | safe}}</a></li>
+                <li class='result'>
+                  <a href='{{post.title}}'>{{post.title | safe}}</a>
+                  <p>
+                    {{post.custom_content | safe}}
+                  </p>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}

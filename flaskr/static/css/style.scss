@@ -6,3 +6,17 @@
 #content {
     //silence
 }
+
+.results {
+    width:100%;
+
+    .result {
+        width:80%;
+        margin:auto;
+        padding:12px;
+
+        p {
+            padding:12px;
+        }
+    }
+}
