@@ -7,6 +7,52 @@
     //silence
 }
 
+form {
+    section {
+        padding:12px;
+    }
+}
+
+.spaced {
+    padding:12px;
+}
+
+.searchform {
+    width:100%;
+    display:flex;
+    justify-content:center;
+    flex-direction: row;
+    flex-wrap:wrap;
+
+    input[type='text'] {
+        width:360px;
+        height:32px;
+        outline:none;
+        border-left:none;
+        border-right:none;
+        border-top:none;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: lightgray;
+    }
+
+    input[type='submit'] {
+        outline:none;
+        border:none;
+        background-color: lightgray;
+        color:black;
+        height:32px;
+        min-width:92px;
+    }
+
+    section {
+        width: 100%;
+        display:flex;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+}
+
 .results {
     width:100%;
 

@@ -1,22 +1,26 @@
 {% extends 'layout.html' %}
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
-    <form action="/search">
-      <dl>
-        {{ render_field(form.q) }}
-      </dl>
-      <p><input type='submit' value='Search'>
+    <form action='/search' class='searchform'>
+        <section>
+            <h1>Search</h1>
+        </section><br>
+        <section>
+            <input type='text' name='q' placeholder='Search'> <input type='submit' value='Search'>
+        </section>
     </form>
-    {% if posts is not none%}
-        <ul class='results'>
-            {% for post in posts %}
-                <li class='result'>
-                  <a href='{{post.title}}'>{{post.title | safe}}</a>
-                  <p>
-                    {{post.custom_content | safe}}
-                  </p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <span class="spaced">
+        {% if posts is not none%}
+            <ul class='results'>
+                {% for post in posts %}
+                    <li class='result'>
+                      <a href='{{post.title}}' target='_blank'>{{post.title | safe}}</a>
+                      <p>
+                        {{post.custom_content | safe}}
+                      </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </span>
 {% endblock %}
