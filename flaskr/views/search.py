@@ -4,6 +4,7 @@ from ..session import sess
 from engine.models import Post
 from flask.ext.wtf import Form
 from wtforms import TextField
+from engine.utils import teaserify
 
 
 search = Blueprint('search', __name__,
@@ -25,11 +26,7 @@ def _search():
 
 
         for post in posts:
-            post.custom_content = post.content
-
-            if len(post.custom_content) >= 128:
-                post.custom_content = post.custom_content.split(term)[0][-128:] + term + post.custom_content.split(term)[0][-128:]
-            
+            post.custom_content = teaserify(post.content, term)
             post.custom_content = post.custom_content.replace(term, '<font color="blue">{term}</font>'.format(term=term))
             new_posts.append(post)
 

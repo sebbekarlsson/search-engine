@@ -36,6 +36,21 @@ class Spider(threading.Thread):
             return False
 
         links = tree.xpath('//a')
+        paragraphs = tree.xpath('//p/text()')
+        h1s = tree.xpath('//h1/text()')
+        h2s = tree.xpath('//h2/text()')
+        h3s = tree.xpath('//h3/text()')
+
+        mock_paragraphs = ' '.join(paragraphs)
+        mock_h1s = ' '.join(h1s)
+        mock_h2s = ' '.join(h2s)
+        mock_h3s = ' '.join(h3s)
+
+        mock_content = ''
+        mock_content += ' ' + mock_paragraphs
+        mock_content += ' ' + mock_h1s
+        mock_content += ' ' + mock_h2s
+        mock_content += ' '  + mock_h3s
 
         for link in links:
             try:
@@ -69,7 +84,7 @@ class Spider(threading.Thread):
 
                 post = Post()
                 post.title = href
-                post.content = re.sub(r'<[^>]*?>', '', html).encode('utf-8').decode('unicode_escape')
+                post.content = mock_content
                 post.type = 'post'
 
                 self.dumpster.add(post)
